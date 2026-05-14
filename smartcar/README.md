@@ -1,18 +1,29 @@
-## Getting Started
+# SmartTraffic Parking
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Extensión del seminario Smart Traffic con plazas de parking inteligentes.
 
-## Folder Structure
+## Ejecutar demo completa
 
-The workspace contains two folders by default, where:
+```text
+SmartParkingDemoStarterApp tcp://tambori.dsic.upv.es:10083 iot/2023/07
+```
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+La demo crea:
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+- `SmartParkingRegistry`: servicio IoT de parking.
+- `P1`, `P2`, `P3`, `P4`: dispositivos IoT de parking.
+- `SmartCarParking001`: coche que consulta parkings y ocupa el más cercano disponible.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Topics principales
 
-## Dependency Management
+```text
+iot/2023/07/road/+/parking/status/+
+iot/2023/07/parking/query
+iot/2023/07/parking/occupy
+iot/2023/07/road/+/parking/command/+
+iot/2023/07/vehicle/SmartCarParking001/parking/response
+iot/2023/07/vehicle/SmartCarParking001/parking/occupy/response
+iot/2023/07/road/+/traffic
+```
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Más detalle en `../MODIFICACIONES_PARKING.md`.

@@ -21,7 +21,7 @@ public class SmartCar_InicidentNotifier extends MyMqttClient {
 	
 	public void alert(String smartCarID, String notificationType, RoadPlace place) {
 
-		String myTopic =  "es/upv/pros/tatami/smartcities/traffic/PTPaterna/road/" + place.getRoad() + "/alerts";
+		String myTopic = MqttTopics.roadAlerts(this.smartcar.getTopicBase(), place.getRoad());
 
 		MqttTopic topic = myClient.getTopic(myTopic);
 
@@ -31,12 +31,22 @@ public class SmartCar_InicidentNotifier extends MyMqttClient {
 		//      para que siga la estructura allí propuesta (ver documento Seminario 3)
 		JSONObject pubMsg = new JSONObject();
 		try {
-			pubMsg.put("vehicle", smartCarID);
-			pubMsg.put("event", notificationType);
-			pubMsg.put("road", place.getRoad());
-			pubMsg.put("kp", place.getKm());
-	   		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
+			JSONObject msg = new JSONObject();
+			msg.put("rt", "traffic::alert");
+			msg.put("incident-type", notificationType);
+			msg.put("id", "INC_" + System.currentTimeMillis());
+			msg.put("road-segment", place.getRoad());
+			msg.put("starting-position", place.getKm());
+			msg.put("ending-position", place.getKm());
+			msg.put("vehicle-id", smartCarID);
+			msg.put("description", notificationType);
+			msg.put("status", "Active");
+
+			pubMsg.put("id", "MSG_" + System.currentTimeMillis());
+			pubMsg.put("type", "ROAD_INCIDENT");
+			pubMsg.put("timestamp", System.currentTimeMillis());
+			pubMsg.put("msg", msg);
+		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
 		

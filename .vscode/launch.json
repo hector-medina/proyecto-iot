@@ -1,17 +1,25 @@
 {
-    // Utilitzeu IntelliSense per aprendre sobre els atributs possibles.
-    // Passeu el cursor per sobre per veure les descripcions dels atributs existents.
-    // Per a més informació, visiteu: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        {
+            "type": "java",
+            "name": "SmartParkingDemoStarterApp",
+            "request": "launch",
+            "mainClass": "SmartParkingDemoStarterApp",
+            "args": [
+                "tcp://tambori.dsic.upv.es:10083",
+                "iot/2023/07"
+            ]
+        },
         {
             "type": "java",
             "name": "SmartCarStarterApp",
             "request": "launch",
             "mainClass": "SmartCarStarterApp",
             "args": [
-                "SmartCar-1234ABC",
-                "tcp://ttmi008.iot.upv.es:1883"
+                "SmartCarParking001",
+                "tcp://tambori.dsic.upv.es:10083",
+                "iot/2023/07"
             ]
         }
     ]
