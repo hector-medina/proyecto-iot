@@ -4,27 +4,24 @@
     {
       "Effect": "Allow",
       "Action": "iot:Connect",
-      "Resource": "arn:aws:iot:us-east-1:349814105065:client/*"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
       "Action": [
         "iot:Publish",
+        "iot:RetainPublish",
         "iot:Receive"
       ],
       "Resource": [
-        "arn:aws:iot:us-east-1:349814105065:topic/iot/2023/07/road/*",
-        "arn:aws:iot:us-east-1:349814105065:topic/iot/2023/07/parking/*",
-        "arn:aws:iot:us-east-1:349814105065:topic/iot/2023/07/vehicle/*"
+        "arn:aws:iot:*:*:topic/iot/2023/07/*"
       ]
     },
     {
       "Effect": "Allow",
       "Action": "iot:Subscribe",
       "Resource": [
-        "arn:aws:iot:us-east-1:349814105065:topicfilter/iot/2023/07/road/*",
-        "arn:aws:iot:us-east-1:349814105065:topicfilter/iot/2023/07/parking/*",
-        "arn:aws:iot:us-east-1:349814105065:topicfilter/iot/2023/07/vehicle/*"
+        "arn:aws:iot:*:*:topicfilter/iot/2023/07/*"
       ]
     }
   ]

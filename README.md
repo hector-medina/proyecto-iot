@@ -63,7 +63,7 @@ Ejecuta contra AWS IoT:
 
 ```bash
 java -cp "bin:lib/*" SmartParkingDemoStarterApp \
-  ssl://<endpoint-aws-iot>:8883 \
+  ssl://a39v1mlm6s3aqc-ats.iot.us-east-1.amazonaws.com:8883 \
   iot/2023/07 \
   certs/AmazonRootCA1.pem \
   certs/Device-18e7e0f1-certificate.pem.crt \
