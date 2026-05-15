@@ -42,3 +42,32 @@ La demo arranca:
 
 Para detener la demo, pulsa `Ctrl+C`.
 
+## AWS IoT
+
+En AWS IoT Core necesitas:
+
+- un Thing creado, por ejemplo `parking-P1`;
+- el certificado del dispositivo activo;
+- la policy de `ParkingPolicy.json` adjuntada al certificado;
+- el endpoint de AWS IoT (`Settings > Device data endpoint`).
+
+Coloca los certificados en:
+
+```text
+certs/AmazonRootCA1.pem
+certs/Device-18e7e0f1-certificate.pem.crt
+certs/Device-18e7e0f1-private.pem.key
+```
+
+Ejecuta contra AWS IoT:
+
+```bash
+java -cp "bin:lib/*" SmartParkingDemoStarterApp \
+  ssl://<endpoint-aws-iot>:8883 \
+  iot/2023/07 \
+  certs/AmazonRootCA1.pem \
+  certs/Device-18e7e0f1-certificate.pem.crt \
+  certs/Device-18e7e0f1-private.pem.key
+```
+
+No hace falta pasar un ID de dispositivo aparte: AWS usa el `clientId` MQTT y el certificado. En la demo los `clientId` son `parking-P1`, `parking-register`, `SmartCarParking001`, etc.

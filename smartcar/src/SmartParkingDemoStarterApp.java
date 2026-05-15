@@ -1,4 +1,5 @@
 import componentes.MqttTopics;
+import componentes.MyMqttClient;
 import componentes.ParkingSpot;
 import componentes.SmartCar;
 import componentes.SmartParkingDevice;
@@ -7,12 +8,17 @@ import componentes.SmartParkingRegistry;
 public class SmartParkingDemoStarterApp {
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
-            System.out.println("tcp://tambori.dsic.upv.es:10083 es/upv/pros/tatami/smartcities/traffic/PTPaterna");
+            System.out.println("Usage: SmartParkingDemoStarterApp <brokerURL> <topicBase> [rootCA] [certificate] [privateKey]");
+            System.out.println("Example: SmartParkingDemoStarterApp tcp://tambori.dsic.upv.es:10083 iot/2023/07");
+            System.out.println("AWS IoT: SmartParkingDemoStarterApp ssl://<endpoint>:8883 iot/2023/07 certs/AmazonRootCA1.pem certs/Device-18e7e0f1-certificate.pem.crt certs/Device-18e7e0f1-private.pem.key");
             System.exit(1);
         }
 
         String brokerURL = args[0];
         String topicBase = args.length >= 2 ? args[1] : MqttTopics.DEFAULT_TOPIC_BASE;
+        if (args.length >= 5) {
+            MyMqttClient.configureAwsIotCertificates(args[2], args[3], args[4]);
+        }
 
         SmartParkingRegistry registry = new SmartParkingRegistry("parking-register", brokerURL, topicBase);
         registry.start();

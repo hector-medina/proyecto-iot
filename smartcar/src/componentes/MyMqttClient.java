@@ -15,6 +15,9 @@ public abstract class MyMqttClient implements MqttCallback {
 	protected MqttClient myClient;
 	protected String clientId = null;
 	protected String brokerURL = null;
+	private static String awsIotRootCaPath = null;
+	private static String awsIotCertificatePath = null;
+	private static String awsIotPrivateKeyPath = null;
 
 	protected SmartCar smartcar = null;
 
@@ -48,6 +51,11 @@ public abstract class MyMqttClient implements MqttCallback {
 	public void deliveryComplete(IMqttDeliveryToken token) {
 	}
 
+	public static void configureAwsIotCertificates(String rootCaPath, String certificatePath, String privateKeyPath) {
+		awsIotRootCaPath = rootCaPath;
+		awsIotCertificatePath = certificatePath;
+		awsIotPrivateKeyPath = privateKeyPath;
+	}
 
 	public void connect() {
 		// setup MQTT Client
@@ -57,6 +65,7 @@ public abstract class MyMqttClient implements MqttCallback {
 		connOpt.setKeepAliveInterval(30);
 //			connOpt.setUserName(M2MIO_USERNAME);
 //			connOpt.setPassword(M2MIO_PASSWORD_MD5.toCharArray());
+		configureAwsIotSslIfNeeded(connOpt);
 		
 		// Connect to Broker
 		try {
@@ -80,6 +89,36 @@ public abstract class MyMqttClient implements MqttCallback {
 		
 		MySimpleLogger.trace(this.clientId, "Client connected to " + this.brokerURL);
 
+	}
+
+	private void configureAwsIotSslIfNeeded(MqttConnectOptions connOpt) {
+		if (this.brokerURL == null || !this.brokerURL.startsWith("ssl://")) {
+			return;
+		}
+
+		String rootCaPath = firstNonEmpty(awsIotRootCaPath, System.getProperty("aws.iot.rootCa"), System.getenv("AWS_IOT_ROOT_CA"));
+		String certificatePath = firstNonEmpty(awsIotCertificatePath, System.getProperty("aws.iot.certificate"), System.getenv("AWS_IOT_CERTIFICATE"));
+		String privateKeyPath = firstNonEmpty(awsIotPrivateKeyPath, System.getProperty("aws.iot.privateKey"), System.getenv("AWS_IOT_PRIVATE_KEY"));
+
+		if (rootCaPath == null || certificatePath == null || privateKeyPath == null) {
+			throw new IllegalStateException("AWS IoT SSL connection requires root CA, certificate and private key paths");
+		}
+
+		try {
+			connOpt.setSocketFactory(AwsIotSslSocketFactory.create(rootCaPath, certificatePath, privateKeyPath));
+			MySimpleLogger.trace(this.clientId, "AWS IoT TLS certificates configured");
+		} catch (Exception e) {
+			throw new IllegalStateException("Unable to configure AWS IoT TLS certificates", e);
+		}
+	}
+
+	private static String firstNonEmpty(String... values) {
+		for (String value : values) {
+			if (value != null && !value.trim().isEmpty()) {
+				return value.trim();
+			}
+		}
+		return null;
 	}
 	
 	

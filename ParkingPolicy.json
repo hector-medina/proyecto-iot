@@ -1,0 +1,31 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "iot:Connect",
+      "Resource": "arn:aws:iot:us-east-1:349814105065:client/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iot:Publish",
+        "iot:Receive"
+      ],
+      "Resource": [
+        "arn:aws:iot:us-east-1:349814105065:topic/iot/2023/07/road/*",
+        "arn:aws:iot:us-east-1:349814105065:topic/iot/2023/07/parking/*",
+        "arn:aws:iot:us-east-1:349814105065:topic/iot/2023/07/vehicle/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iot:Subscribe",
+      "Resource": [
+        "arn:aws:iot:us-east-1:349814105065:topicfilter/iot/2023/07/road/*",
+        "arn:aws:iot:us-east-1:349814105065:topicfilter/iot/2023/07/parking/*",
+        "arn:aws:iot:us-east-1:349814105065:topicfilter/iot/2023/07/vehicle/*"
+      ]
+    }
+  ]
+}
