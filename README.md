@@ -42,16 +42,3 @@ La demo arranca:
 
 Para detener la demo, pulsa `Ctrl+C`.
 
-## Como ejecutar solo un coche
-
-Si ya hay un servicio de parking funcionando, puedes arrancar solo un coche:
-
-```bash
-java -cp "bin:lib/*" SmartCarStarterApp SmartCar001 tcp://tambori.dsic.upv.es:10083 iot/2023/07
-```
-
-Parametros:
-
-- `SmartCar001`: identificador del coche.
-- `tcp://tambori.dsic.upv.es:10083`: URL del broker MQTT.
-- `iot/2023/07`: topic base. Si no se indica, se usa `es/upv/pros/tatami/smartcities/traffic/PTPaterna`.
